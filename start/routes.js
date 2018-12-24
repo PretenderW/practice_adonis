@@ -17,3 +17,24 @@ const Route = use('Route');
 Route.get('/', () => ({ status: 'Ok', version: '1.0.0' }));
 
 Route.post('/login', 'AuthController.login');
+Route.post('/registrar', 'AuthController.registrar');
+
+Route.post('/productlist', 'ProductController.productlist');
+Route.post('/product', 'ProductController.product');
+
+Route.post('/user/productlist', 'UserController.productlist');
+Route.post('/user/addproduct', 'UserController.addproduct');
+Route.post('/user/addproduct', 'UserController.product');
+Route.post('/user/editproduct', 'UserController.editproduct');
+Route.post('/user/deleteproduct', 'UserController.deleteproduct');
+
+Route.post('/admin/typeproductlist', 'AdminController.producttypelist');
+Route.post('/admin/addtypeproduct', 'AdminController.addproducttype');
+Route.post('/user/addproduct', 'UserController.producttype');
+Route.post('/admin/edittypeproduct', 'AdminController.editproducttype');
+Route.post('/admin/deletetypeproduct', 'AdminController.deleteproducttype');
+Route.post('/admin/producatributetlist', 'AdminController.productatributelist');
+Route.post('/admin/addproductatribute', 'AdminController.addproductatribute');
+Route.post('/user/addproduct', 'UserController.productatribute');
+Route.post('/admin/editproductatribute', 'AdminController.editproductatribute');
+Route.post('/admin/deleteproductatribute', 'AdminController.deleteproductatribute');
