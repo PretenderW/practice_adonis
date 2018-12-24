@@ -30,11 +30,16 @@ Route.post('/user/deleteproduct', 'UserController.deleteproduct');
 
 Route.post('/admin/typeproductlist', 'AdminController.producttypelist');
 Route.post('/admin/addtypeproduct', 'AdminController.addproducttype');
-Route.post('/user/addproduct', 'UserController.producttype');
+Route.post('/user/addproduct', 'AdminController.producttype');
 Route.post('/admin/edittypeproduct', 'AdminController.editproducttype');
 Route.post('/admin/deletetypeproduct', 'AdminController.deleteproducttype');
 Route.post('/admin/producatributetlist', 'AdminController.productatributelist');
 Route.post('/admin/addproductatribute', 'AdminController.addproductatribute');
-Route.post('/user/addproduct', 'UserController.productatribute');
+Route.post('/user/addproduct', 'AdminController.productatribute');
 Route.post('/admin/editproductatribute', 'AdminController.editproductatribute');
 Route.post('/admin/deleteproductatribute', 'AdminController.deleteproductatribute');
+
+Route.post('/admin/producttypeatributelist', 'AdminController.producttypeatributelist');
+Route.post('/admin/addproducttypratribute', 'AdminController.addproducttypeatribute');
+Route.post('/admin/editproducttypeatribute', 'AdminController.editproducttypeatribute');
+Route.post('/admin/deleteproducttypeatribute', 'AdminController.deleteproducttypeatribute');

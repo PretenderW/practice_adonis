@@ -86,6 +86,58 @@ class AdminController {
       .delete();
     return affectedRows;
   }
+
+  async producttypeatributelist() {
+    const datalist = await Database.select('*')
+      .from('tproducttypeatribute')
+      .leftJoin('tproducttype', 'tproducttypeatribute.fidproducttype_fk', 'tproducttype.fidproducttype')
+      .rightJoin('tatribute', 'tproducttypeatribute.fidatribute_fk', 'tatribute.fidatribute');
+    return datalist;
+  }
+
+  async addproducttypeatribute({ request }) {
+    const indata = request.only(['fatribute', 'ftype']);
+    const typeId = await Database.select('fidproducttype')
+      .from('tproducttype')
+      .where('fnameproducttype', '=', `${indata.ftype}`);
+
+    const atributeId = await Database.select('fidatribute')
+      .from('tatribute')
+      .where('fnameatribute', '=', `${indata.fatribute}`);
+
+    const id = await Database.table('tprodacttypeatribute').insert({
+      fidatribute_fk: `${atributeId}`,
+      fidproducttype_fk: `${typeId}`
+    });
+    return id;
+  }
+
+  async editproducttypeatribute({ request }) {
+    const indata = request.only(['fatribute', 'ftype', 'fidproducttypeatribute']);
+    const typeId = await Database.select('fidproducttype')
+      .from('tproducttype')
+      .where('fnameproducttype', '=', `${indata.ftype}`);
+
+    const atributeId = await Database.select('fidatribute')
+      .from('tatribute')
+      .where('fnameatribute', '=', `${indata.fatribute}`);
+
+    const affectedRows = await Database.table('tproducttypeatribute')
+      .where('fidproducttypeatribute', '=', `${indata.fidproducttypeatribute}`)
+      .update({
+        fidproducttype_fk: `${typeId}`,
+        fidatribute_fk: `${atributeId}`
+      });
+    return affectedRows;
+  }
+
+  async deleteproducttypeatribute({ request }) {
+    const indata = request.only(['fidproducttypeatribute']);
+    const affectedRows = await Database.table('tproducttypeatribute')
+      .where('fidproducttypeatribute', '=', `${indata.fidproducttypeatribute}`)
+      .delete();
+    return affectedRows;
+  }
 }
 
 module.exports = AdminController;

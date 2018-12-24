@@ -15,7 +15,7 @@ class UserController {
     const typeId = await Database.select('fidproducttype')
       .from('tproducttype')
       .where('fnameproducttype', '=', `${indata.ftype}`);
-
+    /* код для добавления параметров в дополнительные таблицы */
     const productId = await Database.table('tproduct').insert({
       fnameproduct: `${indata.fname}`,
       fprice: `${indata.fprice}`,
