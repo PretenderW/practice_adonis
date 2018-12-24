@@ -16,12 +16,15 @@ class UserController {
       .from('tproducttype')
       .where('fnameproducttype', '=', `${indata.ftype}`);
     /* код для добавления параметров в дополнительные таблицы */
+
+    /* --------------------конеу кода -----------------------*/
     const productId = await Database.table('tproduct').insert({
       fnameproduct: `${indata.fname}`,
       fprice: `${indata.fprice}`,
       fidproducttype_fk: `${typeId}`,
       fiduser_fk: `${cookies.fuserid}`,
-      faccessibility: `${indata.faccessibility}`
+      faccessibility: `${indata.faccessibility}`,
+      fadddate: `SELECT CURRENT_DATE`
     });
     return productId;
   }
