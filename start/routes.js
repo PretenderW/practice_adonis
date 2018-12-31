@@ -15,3 +15,11 @@
 const Route = use('Route');
 
 Route.get('/', () => ({ status: 'Ok', version: '1.0.0' }));
+
+Route.post('/login', 'AuthController.login');
+Route.post('/registrar', 'AuthController.registrar');
+
+Route.resource('products', 'ProductController');
+Route.resource('types', 'TypeController');
+Route.resource('atributes', 'AtributeController');
+Route.resource('productatributes', 'ProductAtributeController');

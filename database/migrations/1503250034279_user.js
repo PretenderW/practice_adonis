@@ -6,14 +6,14 @@ class UserSchema extends Schema {
     this.create('users', table => {
       table.increments();
       table
-        .string('username', 80)
-        .notNullable()
-        .unique();
-      table
-        .string('email', 254)
+        .string('name', 80)
         .notNullable()
         .unique();
       table.string('password', 60).notNullable();
+      table
+        .integer('role')
+        .notNullable()
+        .defaultTo(0);
       table.timestamps();
     });
   }
