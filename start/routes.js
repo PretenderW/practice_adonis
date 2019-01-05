@@ -8,4 +8,3 @@ Route.post('/registrar', 'AuthController.registrar');
 Route.resource('products', 'ProductController').apiOnly();
 Route.resource('types', 'TypeController').apiOnly();
 Route.resource('atributes', 'AtributeController').apiOnly();
-Route.resource('products/productatributes', 'ProductAtributeController').apiOnly();
