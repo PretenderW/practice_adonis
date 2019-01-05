@@ -8,6 +8,14 @@ class ProductAtribute extends Model {
   static get createdAtColumn() {
     return null;
   }
+
+  product() {
+    return this.hasOne('App/Models/Product');
+  }
+
+  atribute() {
+    return this.hasOne('App/Models/Atribute');
+  }
 }
 
 module.exports = ProductAtribute;
