@@ -1,6 +1,11 @@
 const Model = use('Model');
 
 class Type extends Model {
+  static boot() {
+    super.boot();
+    this.addTrait('Type');
+  }
+
   static get updatedAtColumn() {
     return null;
   }

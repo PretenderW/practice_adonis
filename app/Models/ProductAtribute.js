@@ -1,6 +1,11 @@
 const Model = use('Model');
 
 class ProductAtribute extends Model {
+  static boot() {
+    super.boot();
+    this.addTrait('ProductAtribute');
+  }
+
   static get updatedAtColumn() {
     return null;
   }
