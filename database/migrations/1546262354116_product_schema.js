@@ -30,7 +30,7 @@ class ProductSchema extends Schema {
       table
         .bool('accessibility')
         .notNullable()
-        .defaultTo('false');
+        .defaultTo('true');
       table.timestamp('created_at').defaultTo(this.fn.now());
     });
   }

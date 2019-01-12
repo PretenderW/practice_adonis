@@ -1,19 +1,32 @@
+const Atribute = use('App/Models/Atribute');
 
 class AtributeController {
+  async index() {
+    return Atribute.findByName();
+  }
 
-  async index({ request, response, view }) {}
+  async store({ request }) {
+    const { name } = request.all();
+    return Atribute.findByName(name);
+  }
 
-  async create({ request, response, view }) {}
+  async show({ params }) {
+    const { id } = params;
+    return Atribute.findById(id);
+  }
 
-  async store({ request, response }) {}
+  async update({ params, request }) {
+    const { id } = params;
+    const atr = request.only(['name', 'type_id']);
+    return Atribute.updateAtribute(id, atr.name, atr.type_id);
+  }
 
-  async show({ params, request, response, view }) {}
-
-  async edit({ params, request, response, view }) {}
-
-  async update({ params, request, response }) {}
-
-  async destroy({ params, request, response }) {}
+  async destroy({ params, response }) {
+    const { id } = params;
+    const atr = await Atribute.findOrFail(id);
+    await atr.delete();
+    return response.json({ msg: 'Ok' });
+  }
 }
 
 module.exports = AtributeController;
