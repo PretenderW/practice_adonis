@@ -1,4 +1,4 @@
-const ProductAtribute = use('productAtribute');
+const ProductAtribute = use('App/Models/ProductAtribute');
 
 class Product {
   register(Model) {
@@ -10,31 +10,26 @@ class Product {
       return query.fetch();
     };
 
-    Model.findById = function findById(id) {
+    Model.sortProduct = function sortProduct(request) {
+      const indata = request.only(['name', 'sort', 'direction']);
       const query = this.query();
-      if (id) {
-        query.where({ id });
-      }
-      return query.fetch();
-    };
-
-    Model.sortProduct = function sortProduct(name, sort, direction = 'ask') {
-      const query = this.query().where({ name });
-      switch (sort) {
+      if (!indata.direction) indata.direction = 'arc';
+      if (indata.name) query.where({ name: `${indata.name}` });
+      switch (indata.sort) {
         case 1:
-          query.orderBy('name', direction);
+          query.orderBy('name', indata.direction);
           break;
         case 2:
-          query.orderBy('type_id', direction);
+          query.orderBy('type_id', indata.direction);
           break;
         case 3:
-          query.orderBy('user_id', direction);
+          query.orderBy('user_id', indata.direction);
           break;
         case 4:
-          query.orderBy('price', direction);
+          query.orderBy('price', indata.direction);
           break;
         case 5:
-          query.orderBy('created_at', direction);
+          query.orderBy('created_at', indata.direction);
           break;
         default:
           break;

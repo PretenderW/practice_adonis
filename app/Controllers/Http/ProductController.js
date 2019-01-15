@@ -2,8 +2,7 @@ const Product = use('App/Models/Product');
 
 class ProductController {
   async index({ request }) {
-    const indata = request.only(['name', 'sort', 'direction']);
-    return Product.sortProduct(indata.name, indata.sort, indata.direction);
+    return Product.sortProduct(request);
   }
 
   async store({ request }) {
