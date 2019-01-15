@@ -1,24 +1,23 @@
 const Product = use('App/Models/Product');
 
 class ProductController {
-  async index() {
-    return Product.findByName();
+  async index({ request }) {
+    const indata = request.only(['name', 'sort', 'direction']);
+    return Product.sortProduct(indata.name, indata.sort, indata.direction);
   }
 
   async store({ request }) {
-    const indata = request.only(['name', 'sort']);
-    return Product.sortProduct(indata.name, indata.sort);
+    return Product.newProduct(request);
   }
 
   async show({ params }) {
     const { id } = params;
-    return Product.findById(id);
+    return Product.findOrFail(id);
   }
 
   async update({ params, request }) {
     const { id } = params;
-    const { name, attrs } = request.all();
-    return Product.updateProduct(id, name, attrs);
+    return Product.updateProduct(id, request);
   }
 
   async destroy({ params, response }) {

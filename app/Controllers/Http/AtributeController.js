@@ -2,23 +2,22 @@ const Atribute = use('App/Models/Atribute');
 
 class AtributeController {
   async index() {
-    return Atribute.findByName();
+    return Atribute.all();
   }
 
   async store({ request }) {
-    const { name } = request.all();
-    return Atribute.findByName(name);
+    if (Atribute.newAtribute(request)) return 201;
+    return 500;
   }
 
   async show({ params }) {
     const { id } = params;
-    return Atribute.findById(id);
+    return Atribute.findOrFail(id);
   }
 
   async update({ params, request }) {
     const { id } = params;
-    const atr = request.only(['name', 'type_id']);
-    return Atribute.updateAtribute(id, atr.name, atr.type_id);
+    return Atribute.updateAtribute(id, request);
   }
 
   async destroy({ params, response }) {

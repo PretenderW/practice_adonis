@@ -8,23 +8,17 @@ class Type {
       return query.fetch();
     };
 
-    Model.findById = function findById(id) {
-      const query = this.query();
-      if (id) {
-        query.where({ id });
-      }
-      return query.fetch();
-    };
-
-    Model.updateType = async function updateType(id, name) {
+    Model.updateType = async function updateType(id, request) {
+      const atr = request.only(['name']);
       const type = await this.findOrFail(id);
-      await type.merge({ name });
+      await type.merge({ name: `${atr.name}` });
       await type.save();
       return type;
     };
 
-    Model.newType = async function newType(name) {
-      const type = await this.create({ name: `${name}` });
+    Model.newType = async function newType(request) {
+      const atr = request.only(['name']);
+      const type = await this.create({ name: `${atr.name}` });
       return type;
     };
   }

@@ -2,23 +2,22 @@ const Type = use('App/Models/Type');
 
 class TypeController {
   async index() {
-    return Type.findByName();
+    return Type.all();
   }
 
   async store({ request }) {
-    const { name } = request.all();
-    return Type.findByName(name);
+    if (Type.newType(request)) return 201;
+    return 500;
   }
 
   async show({ params }) {
     const { id } = params;
-    return Type.findById(id);
+    return Type.findOrFail(id);
   }
 
   async update({ params, request }) {
     const { id } = params;
-    const { name } = request.only(['name']);
-    return Type.updateType(id, name);
+    return Type.updateType(id, request);
   }
 
   async destroy({ params, response }) {

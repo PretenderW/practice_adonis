@@ -18,23 +18,23 @@ class Product {
       return query.fetch();
     };
 
-    Model.sortProduct = function sortProduct(name, sort) {
+    Model.sortProduct = function sortProduct(name, sort, direction = 'ask') {
       const query = this.query().where({ name });
       switch (sort) {
         case 1:
-          query.orderBy('name');
+          query.orderBy('name', direction);
           break;
         case 2:
-          query.orderBy('type_id');
+          query.orderBy('type_id', direction);
           break;
         case 3:
-          query.orderBy('user_id');
+          query.orderBy('user_id', direction);
           break;
         case 4:
-          query.orderBy('price');
+          query.orderBy('price', direction);
           break;
         case 5:
-          query.orderBy('created_at');
+          query.orderBy('created_at', direction);
           break;
         default:
           break;
@@ -42,28 +42,38 @@ class Product {
       return query.fetch();
     };
 
-    Model.updateProduct = async function updateProduct(id, name, atr) {
+    Model.updateProduct = async function updateProduct(id, request) {
+      const { name, cost, attrs } = request.all();
       const pr = await this.findOrFail(id);
-      await pr.merge({ name: `${name}` });
-      for (const i in atr) {
-        if (atr.hasOwnProperty(i)) {
-          const pa = ProductAtribute.findByData(id, atr[i].id);
-          ProductAtribute.updateProductAtribute(pa, id, atr[i].id, atr[i].value);
-        }
-      }
+      await pr.merge({ name: `${name}`, cost: `${cost}` });
+      const results = [];
+      for (const i in attrs) if (attrs.hasOwnProperty(i)) results.push(ProductAtribute.findByData(id, attrs[i].id));
+      await Promise.all(results);
+      const resultsupd = [];
+      for (const i in attrs)
+        if (attrs.hasOwnProperty(i))
+          resultsupd.push(ProductAtribute.updateProductAtribute(results[i], id, attrs[i].id, attrs[i].value));
+      await Promise.all(resultsupd);
       await pr.save();
       return pr;
     };
 
-    Model.newProduct = async function newProduct(name, atr) {
-      const pr = await this.create({ name: `${name}` });
-      const id = await this.findByName(name);
-      for (const i in atr) {
-        if (atr.hasOwnProperty(i)) {
-          const pa = ProductAtribute.findByData(id, atr[i].id);
-          ProductAtribute.updateProductAtribute(pa, id, atr[i].id, atr[i].value);
+    Model.newProduct = async function newProduct(request) {
+      const { name, cost, attrs } = request.all();
+      const pr = await this.create({ name: `${name}`, cost: `${cost}` });
+      const results = [];
+      for (const i in attrs) {
+        if (attrs.hasOwnProperty(i)) {
+          const pa = ProductAtribute.findByData(pr, attrs[i].id);
+          results.push(pa);
         }
       }
+      await Promise.all(results);
+      const resultsupd = [];
+      for (const i in attrs)
+        if (attrs.hasOwnProperty(i))
+          resultsupd.push(ProductAtribute.updateProductAtribute(results[i], pr, attrs[i].id, attrs[i].value));
+      await Promise.all(resultsupd);
       return pr;
     };
   }
