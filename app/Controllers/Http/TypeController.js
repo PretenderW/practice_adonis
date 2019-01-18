@@ -1,17 +1,31 @@
+const Type = use('App/Models/Type');
+
 class TypeController {
-  async index({ request, response, view }) {}
+  async index() {
+    return Type.all();
+  }
 
-  async create({ request, response, view }) {}
+  async store({ request }) {
+    if (Type.newType(request)) return 201;
+    return 500;
+  }
 
-  async store({ request, response }) {}
+  async show({ params }) {
+    const { id } = params;
+    return Type.findOrFail(id);
+  }
 
-  async show({ params, request, response, view }) {}
+  async update({ params, request }) {
+    const { id } = params;
+    return Type.updateType(id, request);
+  }
 
-  async edit({ params, request, response, view }) {}
-
-  async update({ params, request, response }) {}
-
-  async destroy({ params, request, response }) {}
+  async destroy({ params, response }) {
+    const { id } = params;
+    const type = await Type.findOrFail(id);
+    await type.delete();
+    return response.json({ msg: 'Ok' });
+  }
 }
 
 module.exports = TypeController;

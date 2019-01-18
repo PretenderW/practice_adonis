@@ -1,17 +1,30 @@
+const Product = use('App/Models/Product');
+
 class ProductController {
-  async index({ request, response, view }) {}
+  async index({ request }) {
+    return Product.sortProduct(request);
+  }
 
-  async create({ request, response, view }) {}
+  async store({ request }) {
+    return Product.newProduct(request);
+  }
 
-  async store({ request, response }) {}
+  async show({ params }) {
+    const { id } = params;
+    return Product.findOrFail(id);
+  }
 
-  async show({ params, request, response, view }) {}
+  async update({ params, request }) {
+    const { id } = params;
+    return Product.updateProduct(id, request);
+  }
 
-  async edit({ params, request, response, view }) {}
-
-  async update({ params, request, response }) {}
-
-  async destroy({ params, request, response }) {}
+  async destroy({ params, response }) {
+    const { id } = params;
+    const type = await Product.findOrFail(id);
+    await type.delete();
+    return response.json({ msg: 'Ok' });
+  }
 }
 
 module.exports = ProductController;
